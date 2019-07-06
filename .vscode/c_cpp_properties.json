@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/usr/include",
+                "/opt/ros/kinetic/include",
+                "${workspaceRoot}/**",
+                "/usr/include/pcl-1.9",
+                "/usr/include/OGRE",
+                "/usr/include/x86_64-linux-gnu/qt5/**",
+                "/usr/include/eigen3"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
+}
