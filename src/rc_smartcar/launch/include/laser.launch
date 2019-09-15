@@ -1,0 +1,4 @@
+<launch>
+    <!-- Run Linorobot compatible laser drivers. Takes reference from env var LINOLIDAR. ie. export LINOLIDAR=xv11 -->
+    <include file="$(find rc_smartcar)/launch/include/lidar/$(env LINOLIDAR).launch" />
+</launch>

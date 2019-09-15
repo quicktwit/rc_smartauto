@@ -1,0 +1,25 @@
+<launch>
+    <!-- Start ROS communication between the robot's computer (Raspberry Pi) and Arduino Mega -->
+    <node pkg="rosserial_python" name="rosserial_lino" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/megabase" />
+        <param name="baud" value="57600" />
+    </node>
+
+    <!-- IMU Relay and Filter -->
+    <include file="$(find rc_smartcar)/launch/include/imu/imu.launch" />
+
+    <!-- Publish Linorobot odometry -->
+    <node pkg="linorobot" name="lino_base_node" type="lino_base_node"></node>
+
+    <!-- Odom-IMU Extended Kalman Filter-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+        <remap from="odometry/filtered" to="odom" />
+        <rosparam command="load" file="$(find rc_smartcar)/param/ekf/robot_localization.yaml" />
+    </node>
+
+    <!-- Run Linorobot compatible laser drivers -->
+    <include file="$(find rc_smartcar)/launch/include/laser.launch" />
+
+    <!-- Transforms for base_link, imu, and laser-->
+    <include file="$(find rc_smartcar)/launch/include/tf.launch" />
+</launch>

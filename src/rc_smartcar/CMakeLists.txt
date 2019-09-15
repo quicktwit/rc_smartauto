@@ -2,12 +2,39 @@ cmake_minimum_required(VERSION 2.8.3)
 project(rc_smartcar)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    rospy
+    tf2
+    tf2_ros
+    nav_msgs
+    lino_msgs
+    geometry_msgs
+    sensor_msgs
+    std_msgs
+)
+
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES rc_smartcar
+  CATKIN_DEPENDS roscpp rospy tf2 tf2_ros nav_msgs lino_msgs geometry_msgs sensor_msgs std_msgs 
+  DEPENDS system_lib
+)
+
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+)
+
+add_library(base src/base.cpp)
+add_executable(base_node src/base_node.cpp)
+target_link_libraries(base_node base ${catkin_LIBRARIES})
+add_dependencies(base lino_msgs_generate_messages_cpp)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -98,12 +125,12 @@ find_package(catkin REQUIRED)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
+#catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rc_smartcar
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
-)
+#)
 
 ###########
 ## Build ##
@@ -111,10 +138,10 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
+#include_directories(
 # include
 # ${catkin_INCLUDE_DIRS}
-)
+# )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
